@@ -10,11 +10,16 @@ En esta versión existen 5 clases:
 - RegistroDatos
 
 En el diagrama UML existe una clase abstracta "NaveEspacial" para aplicar
-herencia en futuras etapas del proyecto, pero por ahora no está implementada
-en el código, sólo en el diseño conceptual.
+herencia en futuras etapas del proyecto.
 
 # Objetivo
-Practicar el uso de clases, constructores, atributos y métodos en C++.  
+Practicar:
+- Creación de clases en C++
+- Constructores
+- Atributos privados
+- Métodos públicos
+- Organización de proyecto en archivos .h y .cpp
+- Diseño UML
 
 # Uso
 El programa principal (`main.cpp`) crea un objeto de cada tipo y llama sus métodos para demostrar su funcionamiento.
