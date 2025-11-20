@@ -1,17 +1,18 @@
 #include <iostream>
 
 class EstacionOrbital{
-    private:
+    private://Atributos
         std::string nombre;
         int tripulantes;
     
-    public:
+    public://Métodos
         EstacionOrbital(std::string, int);
         void recibirNave();
         void enviarComunicado();
         void mostrarInfo();
 };
 
+//Constructor
 EstacionOrbital::EstacionOrbital(std::string nom, int tri){
     nombre = nom;
     tripulantes = tri;

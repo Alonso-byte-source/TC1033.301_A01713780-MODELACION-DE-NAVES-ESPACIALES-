@@ -1,18 +1,19 @@
 #include <iostream>
 
 class SondaEspacial{
-    private:
+    private://Atributos
         std::string nombre, destino;
         double combustible;
         bool activa;
     
-    public:
+    public://Métodos
         SondaEspacial(std::string, std::string, double);
         void mostrarInfo();
         void iniciarMision();
         void transmitirDatos();
 };
 
+//Constructor
 SondaEspacial::SondaEspacial(std::string nom, std::string des, double com){
     nombre = nom;
     destino = des;
