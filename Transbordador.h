@@ -1,11 +1,12 @@
 #include <iostream>
 
 class Transbordador{
-    private:
+    private: //Atributos
         std::string nombre;
         double combustible;
         int capacidadPasajeros; 
-    public:
+        
+    public: //Métodos
         Transbordador(std::string, double, int ); // Constructor
         void mostrarInfo();
         void despegar();
