@@ -1,12 +1,28 @@
 # TC1033.301_A01713780-MODELACION-DE-NAVES-ESPACIALES-
 Este proyecto simula distintos tipos de naves espaciales mediante programación orientada a objetos en C++.   Cada clase representa un tipo de vehículo independiente: Transbordador, Sonda Espacial y Estación Orbital.   El usuario puede crear objetos, ver su información y ejecutar acciones simuladas.
+
+En esta versión existen 5 clases:
+
+- Transbordador
+- SondaEspacial
+- EstacionOrbital
+- MisionEspacial
+- RegistroDatos
+
+En el diagrama UML existe una clase abstracta "NaveEspacial" para aplicar
+herencia en futuras etapas del proyecto, pero por ahora no está implementada
+en el código, sólo en el diseño conceptual.
+
 # Objetivo
 Practicar el uso de clases, constructores, atributos y métodos en C++.  
 
-#Uso
+# Uso
 El programa principal (`main.cpp`) crea un objeto de cada tipo y llama sus métodos para demostrar su funcionamiento.
 
 # Acciones disponibles
-- Despegar transbordadores y reabastecerlos.
-- Iniciar misiones con sondas espaciales y transmitir datos.
-- Simular estaciones orbitales recibiendo naves y enviando comunicados.
+- Simular el despegue de un Transbordador.
+- Activar una Sonda Espacial y transmitir datos.
+- Operar una Estación Orbital.
+- Consultar información de una Misión Espacial.
+- Generar un registro de eventos.
+
