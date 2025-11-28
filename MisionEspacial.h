@@ -1,24 +1,25 @@
+#ifndef MISIONESPACIAL_H
+#define MISIONESPACIAL_H
 #include <iostream>
-
+#include "RegistroDatos.h"
+ 
 class MisionEspacial{
-    private://Atributos
-        std::string nombre;
-        std::string objetivo;
-        int duracionDias;
+private:
+    std::string nombre;
+    std::string objetivo;
+    int duracionDias;
+    RegistroDatos registro; // composición
 
-    public://Métodos
-        MisionEspacial(std::string, std::string, int);
-        void mostrarInfo();
+public:
+    MisionEspacial(std::string n, std::string o, int d, RegistroDatos r)
+        : nombre(n), objetivo(o), duracionDias(d), registro(r) {}
+
+    void mostrarInfo() const {
+        std::cout << "Mision: " << nombre
+                  << "\nObjetivo: " << objetivo
+                  << "\nDuracion: " << duracionDias << " dias" << std::endl;
+        registro.mostrarRegistro();
+    }
 };
 
-//Constructor
-MisionEspacial::MisionEspacial(std::string nom, std::string obj, int dur){
-    nombre = nom;
-    objetivo = obj;
-    duracionDias = dur;
-}
-
-void MisionEspacial::mostrarInfo(){
-    std::cout << "Mision Espacial: " << nombre << " | Objetivo: " << objetivo << " | Duracion: " << duracionDias << " dias" << std::endl;
-}
-
+#endif

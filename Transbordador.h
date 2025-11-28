@@ -1,35 +1,36 @@
+#ifndef TRANSBORDADOR_H
+#define TRANSBORDADOR_H
 #include <iostream>
+#include "NaveEspacial.h"
+#include "EstacionOrbital.h"
 
-class Transbordador{
-    private: //Atributos
-        std::string nombre;
+
+class Transbordador: public NaveEspacial{
+    private:
+        int capacidad;
         double combustible;
-        int capacidadPasajeros; 
-        
-    public: //Métodos
-        Transbordador(std::string, double, int ); // Constructor
-        void mostrarInfo();
+        double combustibleRecarga;
+    public:
+        Transbordador(std::string, std::string, int, double, double);
+        void solicitarRecarga(EstacionOrbital &est);
         void despegar();
-        void reabastecer(double);
-        
+        void mostrarInfo();
 };
 
-// Constructor
-Transbordador::Transbordador(std::string nom, double com, int cap){
-    nombre = nom;
-    combustible = com;
-    capacidadPasajeros = cap;
+Transbordador::Transbordador(std::string nom, std::string tipMis, int cap, double comb, double combR)
+    : NaveEspacial(nom, tipMis), capacidad(cap), combustible(comb), combustibleRecarga(combR) {}
+
+void Transbordador::solicitarRecarga(EstacionOrbital &est){
+    std::cout << nombre << " solicita recarga de combustible...\n";
+    est.recargarCombustible(combustibleRecarga, combustible);
 }
 
 void Transbordador::despegar(){
-    std::cout << "El transbordador " << nombre << " ha despegado con " << capacidadPasajeros << " pasajeros a bordo" << std::endl;
-}
-
-void Transbordador::reabastecer(double litros){
-    combustible += litros;
-    std::cout << "El transbordador ha sido reabastecido. Combustible actual: " << combustible << "L" << std::endl;
+    NaveEspacial::despegar();
 }
 
 void Transbordador::mostrarInfo(){
-    std::cout << "Transbordador: " << nombre << " | Pasajeros: " << capacidadPasajeros << " | Combustible: " << combustible << "L"  << std::endl; 
+    NaveEspacial::mostrarInfo();
+    std::cout << "Capacidad: " << capacidad << " | Combustible: " << combustible << std::endl;
 }
+#endif

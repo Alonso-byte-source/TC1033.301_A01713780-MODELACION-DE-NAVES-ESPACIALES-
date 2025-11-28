@@ -1,36 +1,29 @@
-#include <iostream>
 #include "Transbordador.h"
-#include "SondaEspacial.h"
 #include "EstacionOrbital.h"
+#include "SondaEspacial.h"
 #include "MisionEspacial.h"
 #include "RegistroDatos.h"
 
-int main(){
-    Transbordador T1("Challenger", 4500000, 4);
-    SondaEspacial S1("Voyager 1", "Saturno", 4.5);
-    SondaEspacial S2("Voyager 2", "Venus", 3.5);
-    EstacionOrbital E1("ISS", 5);
-    MisionEspacial M1("Apolo XXI", "Explorar Marte", 180);
-    RegistroDatos R1("12:30", "Sistema funcionando correctamente");
+int main() {
 
-    T1.despegar();
-    T1.reabastecer(500000);
-    T1.mostrarInfo();
+    RegistroDatos r(10, "Inicio de la mision");
 
-    S1.iniciarMision();
+    MisionEspacial m("Apolo XXI", "Exploracion lunar", 15, r);
+    m.mostrarInfo();
 
-    S1.transmitirDatos();
-    S1.mostrarInfo();
+    EstacionOrbital e("ISS", "Investigacion", 6, 3000);
+    e.mostrarInfo();
+    
+    Transbordador t("Discovery", "Transporte", 7, 500.0, 300.0);
+    t.mostrarInfo();
+    t.despegar();
+    t.solicitarRecarga(e);
+    t.mostrarInfo();
 
-    S2.transmitirDatos();
-    S2.mostrarInfo();
+    SondaEspacial s("Voyager", "Exploracion", "Saturno", 10);
+    s.iniciarMision();
+    s.mostrarInfo();
+    s.transmitirDatos();
 
-    E1.enviarComunicado();
-    E1.recibirNave();
-    E1.mostrarInfo();
-
-    M1.mostrarInfo();
-
-    R1.mostrarRegistro();
     return 0;
 }

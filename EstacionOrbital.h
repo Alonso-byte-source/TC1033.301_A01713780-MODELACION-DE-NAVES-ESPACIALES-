@@ -1,22 +1,24 @@
+#ifndef ESTACIONORBITAL_H
+#define ESTACIONORBITAL_H
 #include <iostream>
+#include "NaveEspacial.h"
 
-class EstacionOrbital{
+class EstacionOrbital : public NaveEspacial{
     private://Atributos
-        std::string nombre;
+        double combustibleDisponible;
         int tripulantes;
     
     public://Métodos
-        EstacionOrbital(std::string, int);
+        EstacionOrbital(std::string, std::string, int, double);
         void recibirNave();
         void enviarComunicado();
         void mostrarInfo();
+        void recargarCombustible(double &pedido, double &cant);
 };
 
 //Constructor
-EstacionOrbital::EstacionOrbital(std::string nom, int tri){
-    nombre = nom;
-    tripulantes = tri;
-}
+EstacionOrbital::EstacionOrbital(std::string nom, std::string tipMis, int tri, double comb)
+    : NaveEspacial(nom, tipMis), tripulantes(tri), combustibleDisponible(comb) {}
 
 void EstacionOrbital::recibirNave(){
     std::cout << "La estacion orbital: " << nombre << " ha recibido una nave." << std::endl;
@@ -27,5 +29,15 @@ void EstacionOrbital::enviarComunicado(){
 }
 
 void EstacionOrbital::mostrarInfo(){
-    std::cout << "Estacion Orbital: " << nombre << " | Tripulantes: " << tripulantes << std::endl; 
+    NaveEspacial::mostrarInfo();
+    std::cout << "Tripulantes: " << tripulantes << std::endl; 
 }
+
+void EstacionOrbital::recargarCombustible(double &pedido, double &cant){
+    std::cout << "El transbordador: " << nombre << " esta reabasteciendo combustible..." << std::endl;
+    combustibleDisponible -= pedido;
+    cant += pedido;
+    std::cout << "La estacion ahora tiene " << combustibleDisponible << "L" << "\n";
+}
+
+#endif

@@ -1,23 +1,24 @@
+#ifndef SONDAESPACIAL_H
+#define SONDAESPACIAL_H
 #include <iostream>
+#include "NaveEspacial.h"
 
-class SondaEspacial{
+class SondaEspacial : public NaveEspacial{
     private://Atributos
-        std::string nombre, destino;
+        std::string destino;
         double combustible;
         bool activa;
     
     public://Métodos
-        SondaEspacial(std::string, std::string, double);
+        SondaEspacial(std::string, std::string, std::string, double);
         void mostrarInfo();
         void iniciarMision();
         void transmitirDatos();
 };
 
 //Constructor
-SondaEspacial::SondaEspacial(std::string nom, std::string des, double com){
-    nombre = nom;
-    destino = des;
-    combustible = com;
+SondaEspacial::SondaEspacial(std::string nom, std::string tipMis, std::string des, double com) 
+    : NaveEspacial(nom, tipMis), destino(des), combustible(com){
     activa = false;
 }
 
@@ -36,5 +37,8 @@ void SondaEspacial::transmitirDatos(){
 }
 
 void SondaEspacial::mostrarInfo(){
-    std::cout << "Sonda Espacial: " << nombre << " | Destino: " << destino << " | Estado: " << (activa ? "Activa":"Inactiva") << " | Combustible: " << combustible << "kg" <<std::endl; 
+    NaveEspacial::mostrarInfo();
+    std::cout << "Destino: " << destino << " | Estado: " << (activa ? "Activa":"Inactiva") << " | Combustible: " << combustible << "kg" <<std::endl; 
 }
+
+#endif
