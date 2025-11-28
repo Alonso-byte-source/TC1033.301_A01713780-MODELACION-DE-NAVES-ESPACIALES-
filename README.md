@@ -9,8 +9,7 @@ En esta versión existen 5 clases:
 - MisionEspacial
 - RegistroDatos
 
-En el diagrama UML existe una clase abstracta "NaveEspacial" para aplicar
-herencia en futuras etapas del proyecto.
+En el diagrama UML existe una clase abstracta "NaveEspacial" la cuál sirve para aplicar herencia en el proyecto.
 
 # Objetivo
 Practicar:
@@ -26,6 +25,7 @@ El programa principal (`main.cpp`) crea un objeto de cada tipo y llama sus méto
 
 # Acciones disponibles
 - Simular el despegue de un Transbordador.
+- El transbordador puede solcitar recarga de combustible a la estación orbital.
 - Activar una Sonda Espacial y transmitir datos.
 - Operar una Estación Orbital.
 - Consultar información de una Misión Espacial.
