@@ -1,6 +1,7 @@
 #ifndef ESTACIONORBITAL_H
 #define ESTACIONORBITAL_H
 #include <iostream>
+#include <sstream>
 #include "NaveEspacial.h"
 
 class EstacionOrbital : public NaveEspacial{
@@ -10,34 +11,43 @@ class EstacionOrbital : public NaveEspacial{
     
     public://Métodos
         EstacionOrbital(std::string, std::string, int, double);
-        void recibirNave();
-        void enviarComunicado();
-        void mostrarInfo();
-        void recargarCombustible(double &pedido, double &cant);
+        void recibirNave(const std::string&);
+        void enviarComunicado(std::string&);
+        std::string toString();
+        void recargarCombustible(double, double&);
+        double getCombustibleDisponible();
 };
 
 //Constructor
 EstacionOrbital::EstacionOrbital(std::string nom, std::string tipMis, int tri, double comb)
     : NaveEspacial(nom, tipMis), tripulantes(tri), combustibleDisponible(comb) {}
 
-void EstacionOrbital::recibirNave(){
-    std::cout << "La estacion orbital: " << nombre << " ha recibido una nave." << std::endl;
+void EstacionOrbital::recibirNave(const std::string &nombreNave){
+    std::cout << "La estacion orbital " << nombre << " ha recibido a " << nombreNave << ".\n";
 }
 
-void EstacionOrbital::enviarComunicado(){
-    std::cout << "La estacion orbital " << nombre << " ha enviado un comunicado a la tierra." << std::endl;
+
+std::string EstacionOrbital::toString(){
+    std::stringstream aux;
+    aux << NaveEspacial::toString();
+    aux << "Tripulantes: " << tripulantes << " | Combustible disponible: " << combustibleDisponible << " L\n"; 
+    return aux.str();
 }
 
-void EstacionOrbital::mostrarInfo(){
-    NaveEspacial::mostrarInfo();
-    std::cout << "Tripulantes: " << tripulantes << std::endl; 
+void EstacionOrbital::recargarCombustible(double cantidadSolicitada, double &combustibleTransbordador){
+    if(combustibleDisponible >= cantidadSolicitada){
+        combustibleDisponible -= cantidadSolicitada;
+        combustibleTransbordador += cantidadSolicitada;
+        std::cout << "\n Recarga exitosa: +" << cantidadSolicitada << "L\n";
+    } else{
+        std::cout << "\n La estación no tiene suficiente combustible. \n";
+    }
+    std::cout << "La estacion " << nombre << " ahora tiene: " << combustibleDisponible << "L\n";
+    std::cout << "El transbordador ahora tiene: " << combustibleTransbordador << "L\n";
 }
 
-void EstacionOrbital::recargarCombustible(double &pedido, double &cant){
-    std::cout << "El transbordador: " << nombre << " esta reabasteciendo combustible..." << std::endl;
-    combustibleDisponible -= pedido;
-    cant += pedido;
-    std::cout << "La estacion ahora tiene " << combustibleDisponible << "L" << "\n";
+double EstacionOrbital::getCombustibleDisponible() { 
+    return combustibleDisponible; 
 }
 
 #endif

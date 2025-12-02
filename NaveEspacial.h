@@ -1,6 +1,7 @@
 #ifndef NAVEESPACIAL_H
 #define NAVEESPACIAL_H 
 #include <iostream>
+#include <sstream>
 
 class NaveEspacial{
     protected:
@@ -9,8 +10,7 @@ class NaveEspacial{
     public:
         NaveEspacial();
         NaveEspacial(std::string, std::string);
-        void despegar();
-        void mostrarInfo();
+        std::string toString();
         std::string getNombre();
         std::string getTipoMision();
 };
@@ -23,12 +23,10 @@ NaveEspacial::NaveEspacial(std::string nom, std::string tipMis)
     : nombre(nom), tipoMision(tipMis) {
 }
 
-void NaveEspacial::despegar() {
-    std::cout << "La nave " << nombre << " esta despegando...\n";
-}
-
-void NaveEspacial::mostrarInfo(){
-    std::cout << "Nave: " << nombre << "| Tipo de mision: " << tipoMision << "\n";
+std::string NaveEspacial::toString(){
+    std::stringstream aux;
+    aux << "Nave: " << nombre << "| Tipo de mision: " << tipoMision << "\n";
+    return aux.str();
 }
 
 std::string NaveEspacial::getNombre(){
