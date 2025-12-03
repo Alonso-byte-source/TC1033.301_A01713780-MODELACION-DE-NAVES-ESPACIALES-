@@ -12,7 +12,6 @@ class EstacionOrbital : public NaveEspacial{
     public://Métodos
         EstacionOrbital(std::string, std::string, int, double);
         void recibirNave(const std::string&);
-        void enviarComunicado(std::string&);
         std::string toString();
         void recargarCombustible(double, double&);
         double getCombustibleDisponible();

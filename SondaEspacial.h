@@ -16,24 +16,32 @@ class SondaEspacial : public NaveEspacial{
         void iniciarMision();
         void transmitirDatos();
         bool estaActiva();
+        void consumirCombustible(double);
+        void perderComunicacion();
 };
 
 //Constructor
 SondaEspacial::SondaEspacial(std::string nom, std::string tipMis, std::string des, double com) 
     : NaveEspacial(nom, tipMis), destino(des), combustible(com), activa(false){
 }
+void SondaEspacial::consumirCombustible(double c){
+    combustible = std::max(0.0, combustible - c);
+}
+
 
 void SondaEspacial::iniciarMision(){
     if(activa){
         std::cout << nombre << "ya esta en mision.\n";
-    }
-    if (combustible < 10.0) {
+    } else{
+        if (combustible < 5.0) {
             std::cout << "Combustible insuficiente para iniciar la misión.\n";
             return;
+        } else{
+            activa = true;
+            combustible -= 0.1; // costo de iniciar
+            std::cout << "La sonda " << nombre << " ha iniciado su mision rumbo a " << destino << ".\n";
         }
-        activa = true;
-        combustible -= 10.0; // costo de iniciar
-        std::cout << "La sonda " << nombre << " ha iniciado su misión rumbo a " << destino << ".\n";
+    }
 }
 
 void SondaEspacial::transmitirDatos(){
@@ -50,6 +58,13 @@ std::string SondaEspacial::toString(){
     aux << NaveEspacial::toString();
     aux << "Destino: " << destino << " | Estado: " << (activa ? "Activa":"Inactiva") << " | Combustible: " << combustible << "kg\n"; 
     return aux.str();
+}
+
+void SondaEspacial::perderComunicacion(){
+    if(activa){
+        std::cout<< "Perdiste comunicacion con la sonda " << nombre << ".\n";
+        activa = false;
+    }
 }
 
 bool SondaEspacial::estaActiva(){

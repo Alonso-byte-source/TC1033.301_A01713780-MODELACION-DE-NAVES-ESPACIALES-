@@ -11,6 +11,7 @@ class Transbordador: public NaveEspacial{
         int tripulantes;
         double combustible;
         double combustibleRecarga;
+        bool acoplado;
     public:
         Transbordador(std::string, std::string, int, double, double);
         void solicitarRecarga(EstacionOrbital&);
@@ -18,19 +19,25 @@ class Transbordador: public NaveEspacial{
         std::string toString();
         double getCombustible();
         void consumirCombustible(double);
+        bool estado();
 };
 
 Transbordador::Transbordador(std::string nom, std::string tipMis, int trip, double comb, double combR)
-    : NaveEspacial(nom, tipMis), tripulantes(trip), combustible(comb), combustibleRecarga(combR) {
+    : NaveEspacial(nom, tipMis), tripulantes(trip), combustible(comb), combustibleRecarga(combR), acoplado(true) {
 
 }
 
 void Transbordador::solicitarRecarga(EstacionOrbital &est){
-    std::cout << "El transbordador " << nombre << " solicita recarga de " << combustibleRecarga << "L a la estacion " << est.getNombre() << "...\n";
-    est.recargarCombustible(combustibleRecarga, combustible);
+    if(acoplado == true){
+        std::cout << "El transbordador " << nombre << " solicita recarga de " << combustibleRecarga << "L a la estacion " << est.getNombre() << "...\n";
+        est.recargarCombustible(combustibleRecarga, combustible);
+    } else{
+        std::cout << "Necesitas acoplarte para recargar combustibe\n";
+    }
 }
 
 void Transbordador::despegar(){
+    acoplado = false;
     std::cout << "\n " << nombre << " ha despegado exitosamente.\n";
 }
 
@@ -47,6 +54,10 @@ double Transbordador::getCombustible(){
 
 void Transbordador::consumirCombustible(double c){
     combustible = std::max(0.0, combustible - c);
+}
+
+bool Transbordador::estado(){
+    return acoplado;
 }
 
 

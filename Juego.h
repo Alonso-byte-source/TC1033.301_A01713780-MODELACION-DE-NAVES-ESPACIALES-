@@ -4,6 +4,7 @@
 #include "Transbordador.h"
 #include "EstacionOrbital.h"
 #include "SondaEspacial.h"
+#include "Evento.h"
 
 class Juego{
     private:
@@ -11,6 +12,7 @@ class Juego{
         EstacionOrbital estacion;
         Transbordador transbordador;
         SondaEspacial sonda;
+        Evento evento;
         int tiempo;
         void limpiarEntrada();
         void mostrarCabecera();
@@ -22,6 +24,7 @@ class Juego{
         void opcionLanzarSonda();
         void opcionTransmitir();
         void opcionVerRegistro();
+        void eventoAleatorio();
     public:
         Juego()
             : mision("Apolo XXI", "Exploracion lunar", 15, RegistroDatos(0, "Mision iniciada")),
@@ -44,7 +47,7 @@ void Juego::run() {
         std::cout << "1) Intentar acoplar " << transbordador.getNombre() << " con " << estacion.getNombre() << std::endl;
         std::cout << "2) Solicitar recarga al " << estacion.getNombre() << std::endl;
         std::cout << "3) Lanzar sonda " << sonda.getNombre() << std::endl;
-        std::cout << "4) Forzar transmisión de datos desde la sonda\n";
+        std::cout << "4) Forzar transmision de datos desde la sonda\n";
         std::cout << "5) Ver registro de la mision\n";
         std::cout << "6) Lanzar transbordador\n";
         std::cout << "7) Avanzar tiempo (siguiente turno)\n";
@@ -68,14 +71,14 @@ void Juego::run() {
             case 7:
                 tiempo++;
                 std::cout << "Avanzas al siguiente turno (turno " << tiempo << ").\n";
-                // eventos automaticos simples:
-                if (tiempo % 3 == 0) {
-                    mision.addEvento(tiempo, "Chequeo rutinario completado");
-                }
+                transbordador.consumirCombustible(50.0);
+                sonda.consumirCombustible(0.1);
+                eventoAleatorio();
                 break;
             case 0:
                 salir = true;
                 break;
+
             default:
                 std::cout << "Opcion no valida.\n";
             }
@@ -128,14 +131,18 @@ void Juego::opcionLanzarTransbordador(){
 }
 
 void Juego::opcionAcoplar() {
-    std::cout << "Intentas acoplar el " << transbordador.getNombre() << " a la estacion " << estacion.getNombre() << "...\n";
-    if (transbordador.getCombustible() < 20.0) {
-        std::cout << "Combustible insuficiente para maniobra de acoplamiento. Solicita recarga o espera.\n";
-    } else {
-        std::cout << "Maniobra exitosa. La estacion recibe la nave.\n";
-        estacion.recibirNave(transbordador.getNombre());
-        mision.addEvento(tiempo, transbordador.getNombre() + " acoplo a " + estacion.getNombre());
-        transbordador.consumirCombustible(20.0);
+    if(!transbordador.estado()){
+        std::cout << "Intentas acoplar el " << transbordador.getNombre() << " a la estacion " << estacion.getNombre() << "...\n";
+        if (transbordador.getCombustible() < 20.0) {
+            std::cout << "Combustible insuficiente para maniobra de acoplamiento. Solicita recarga o espera.\n";
+        } else {
+            std::cout << "Maniobra exitosa. La estacion recibe la nave.\n";
+            estacion.recibirNave(transbordador.getNombre());
+            mision.addEvento(tiempo, transbordador.getNombre() + " acoplo a " + estacion.getNombre());
+            transbordador.consumirCombustible(20.0);
+        }
+    } else{
+        std::cout << "El transbordador ya esta acoplado";
     }
 }
 
@@ -162,4 +169,25 @@ void Juego::opcionTransmitir() {
 void Juego::opcionVerRegistro() {
     std::cout << "Registro de la mision:\n";
     std::cout << mision.toString();
+}
+
+void Juego::eventoAleatorio(){
+    int e = evento.intentarEvento();
+
+    switch(e){
+        case 0:
+            break;
+
+        case 1:
+            std::cout << "Asteroide te golpea. El transbordador " << transbordador.getNombre() << " ha perdido 100 de combustible.\n";
+            transbordador.consumirCombustible(100);
+            mision.addEvento(tiempo, transbordador.getNombre() + " fue golpeado por un asteroide ");
+            break;
+
+        case 2:
+            std::cout << "Tormenta solar. Posible danio en los sistemas.\n";
+            sonda.perderComunicacion();
+            mision.addEvento(tiempo, "Tormenta solar.");
+            break;
+    }
 }
