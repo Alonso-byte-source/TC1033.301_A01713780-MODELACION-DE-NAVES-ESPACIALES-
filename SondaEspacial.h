@@ -1,34 +1,55 @@
+/**
+* Proyecto Simulación Espacial
+* Alonso Vega Reséndiz
+* A01713780
+* 03/12/2025
+*/
+
+/**
+* Clase SondaEspacial simula el comportamiento de una sonda controlada por el
+* usuario, va perdiendo combuestible al pasar los turnos, eventos externos pueden afectar su estado
+* y puede transmitir datos.
+*
+*/
 #ifndef SONDAESPACIAL_H
 #define SONDAESPACIAL_H
 #include <iostream>
 #include <sstream>
-#include "NaveEspacial.h"
+#include "NaveEspacial.h" //Incluimos el archivo de la clase madre
 
+// Declaración de la clase sonda espacial que hereda atributos y métodos de la clase nave espacial
 class SondaEspacial : public NaveEspacial{
-    private://Atributos
+    private:
+        // Declaro las variables de instancia
         std::string destino;
         double combustible;
         bool activa;
     
-    public://Métodos
+    public:
+        /// Declaro métodos que ba a tener el objeto
         SondaEspacial(std::string, std::string, std::string, double);
         std::string toString();
         void iniciarMision();
         void transmitirDatos();
         bool estaActiva();
-        void consumirCombustible(double);
         void perderComunicacion();
 };
 
-//Constructor
-SondaEspacial::SondaEspacial(std::string nom, std::string tipMis, std::string des, double com) 
-    : NaveEspacial(nom, tipMis), destino(des), combustible(com), activa(false){
-}
-void SondaEspacial::consumirCombustible(double c){
-    combustible = std::max(0.0, combustible - c);
+/** 
+* Constructor donde recibe valores para llenar las variables de instacia
+* 
+* @param string nom: el nombre de la nave, string tipMis: el tipo de mision, string des: el destino de la sonda, double comb: el combustible
+*/
+SondaEspacial::SondaEspacial(std::string nom, std::string tipMis, std::string des, double comb) 
+    : NaveEspacial(nom, tipMis, comb), destino(des), activa(false){
 }
 
-
+/**
+* Simula el inicio de la misión de una sonda espacial afectando parámetros como el combustible 
+* de la nave
+* @param 
+* @return 
+*/
 void SondaEspacial::iniciarMision(){
     if(activa){
         std::cout << nombre << "ya esta en mision.\n";
@@ -44,6 +65,12 @@ void SondaEspacial::iniciarMision(){
     }
 }
 
+/**
+* Simula la transmisión de datos de la sonda
+*
+* @param 
+* @return 
+*/
 void SondaEspacial::transmitirDatos(){
     if(activa){
         std::cout << "La sonda " << nombre << " esta transmitiendo datos desde " << destino << "." << std::endl;
@@ -53,6 +80,12 @@ void SondaEspacial::transmitirDatos(){
     }
 }
 
+/**
+* Almacena los valores de las variables de instancia en una cadena de texto
+*
+* @param 
+* @return string con los datos de la sonda
+*/
 std::string SondaEspacial::toString(){
     std::stringstream aux;
     aux << NaveEspacial::toString();
@@ -60,6 +93,12 @@ std::string SondaEspacial::toString(){
     return aux.str();
 }
 
+/**
+* Simula la perdida de comunicación con la sonda desactivando la misión
+*
+* @param 
+* @return 
+*/
 void SondaEspacial::perderComunicacion(){
     if(activa){
         std::cout<< "Perdiste comunicacion con la sonda " << nombre << ".\n";
@@ -67,6 +106,12 @@ void SondaEspacial::perderComunicacion(){
     }
 }
 
+/**
+* Regresa un booleano con el estado de la sonda (true(activa), false(inactiva))
+*
+* @param 
+* @return bool con el estado de la sonda 
+*/
 bool SondaEspacial::estaActiva(){
     return activa;
 }

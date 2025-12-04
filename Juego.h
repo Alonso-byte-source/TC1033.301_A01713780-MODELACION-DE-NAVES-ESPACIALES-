@@ -1,3 +1,18 @@
+/**
+* Proyecto Simulación Espacial
+* Alonso Vega Reséndiz
+* A01713780
+* 03/12/2025
+*/
+
+/**
+* La clase juego se compone de las clases: transbordador, misión espacial, sonda espacial
+* y estación orbital, integrandolas y permitiendo que interactuén entre ellas mediante 
+* las desiciones del usuario
+*
+*/
+#ifndef JUEGO_H
+#define JUEGO_H
 #include <iostream>
 #include <limits>
 #include "MisionEspacial.h"
@@ -6,8 +21,10 @@
 #include "SondaEspacial.h"
 #include "Evento.h"
 
+// Declaración de clase juego
 class Juego{
     private:
+        // Crea objetos de las clases que lo componen
         MisionEspacial mision;
         EstacionOrbital estacion;
         Transbordador transbordador;
@@ -26,9 +43,16 @@ class Juego{
         void opcionVerRegistro();
         void eventoAleatorio();
     public:
+        /** 
+        * Constructor donde manda llamar los constructores de las clases que componene la clase juego
+        * asignándoles valores
+        *
+        * @param  mision, estacion, tranbordador, sonda y tiempo(turno)
+        * @return
+        */
         Juego()
             : mision("Apolo XXI", "Exploracion lunar", 15, RegistroDatos(0, "Mision iniciada")),
-            estacion("ISS", "Investigacion", 6, 3000.0),
+            estacion("ISS", "Investigacion", 6, 3000.0, 3000.0),
             transbordador("Discovery", "Transporte", 7, 500.0, 300.0),
             sonda("Voyager", "Exploracion", "Saturno", 10.0),
             tiempo(0){
@@ -36,6 +60,13 @@ class Juego{
         void run();
 };
 
+/**
+* Muestra el menú de acciones y manada llamar las demás funciones dec acuerdo a la elección  
+* del usuario
+*
+* @param 
+* @return 
+*/
 void Juego::run() {
     mostrarCabecera();
     narrarInicio();
@@ -73,6 +104,7 @@ void Juego::run() {
                 std::cout << "Avanzas al siguiente turno (turno " << tiempo << ").\n";
                 transbordador.consumirCombustible(50.0);
                 sonda.consumirCombustible(0.1);
+                estacion.consumirCombustible(200);
                 eventoAleatorio();
                 break;
             case 0:
@@ -93,17 +125,35 @@ void Juego::run() {
     opcionVerRegistro();
 }
 
+/**
+* Limpia la entrada 
+* 
+* @param 
+* @return 
+*/
 void Juego::limpiarEntrada(){
     std::cin.clear();
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Descarta todo lo que quede en el buffer de entrada hasta encpntrar un salto de línea
 }
 
+/**
+* Muestra la cabecera del juego 
+* 
+* @param 
+* @return 
+*/
 void Juego::mostrarCabecera(){
     std::cout << "====================\n";
     std::cout << "   MISION ESPACIAL  \n";
     std::cout << "====================\n";
 }
 
+/**
+* Narra el inicio del juego 
+* 
+* @param 
+* @return 
+*/
 void Juego::narrarInicio() {
     std::cout << "Estamos en el dia 0 de la mision \"" << "\".\n";
     std::cout << "Objetivo: " << std::endl;
@@ -111,6 +161,13 @@ void Juego::narrarInicio() {
     std::cout << "Decide tus acciones para garantizar el exito de la mision.\n\n";
 }
 
+/**
+* Manda llamar los métodos toString de estación, transbordador y sonda 
+* para mostrar su estado 
+*
+* @param 
+* @return 
+*/
 void Juego::mostrarEstado() {
     std::cout << "\n--- Estado actual (turno " << tiempo << ") ---\n";
     std::cout << estacion.toString();
@@ -121,6 +178,12 @@ void Juego::mostrarEstado() {
     std::cout << "---------------------------------\n\n";
 }
 
+/**
+* Simula el lanzamiento del transbordador y aplica las físicas correspondientes
+* 
+* @param 
+* @return 
+*/
 void Juego::opcionLanzarTransbordador(){
     if(transbordador.getCombustible() >= 150){
         transbordador.consumirCombustible(150);
@@ -130,6 +193,13 @@ void Juego::opcionLanzarTransbordador(){
     }
 }
 
+/**
+* Simula el acoplamiento del transbordador a la estación aplicando las físicas  
+* correspondientes  
+*
+* @param 
+* @return 
+*/
 void Juego::opcionAcoplar() {
     if(!transbordador.estado()){
         std::cout << "Intentas acoplar el " << transbordador.getNombre() << " a la estacion " << estacion.getNombre() << "...\n";
@@ -146,12 +216,25 @@ void Juego::opcionAcoplar() {
     }
 }
 
+/**
+* Simula la solicitud de recarga de combustible del transbordador a la estación
+* 
+*
+* @param 
+* @return 
+*/
 void Juego::opcionRecargar() {
     std::cout << "Solicitando recarga desde el transbordador...\n";
     transbordador.solicitarRecarga(estacion);
     mision.addEvento(tiempo, transbordador.getNombre() + " solicito recarga");
 }
 
+/**
+* Simula el lanzamiento de la sonda espacial
+* 
+* @param 
+* @return 
+*/
 void Juego::opcionLanzarSonda() {
     std::cout << "Orden de lanzamiento a la sonda " << sonda.getNombre() << "...\n";
     sonda.iniciarMision();
@@ -160,17 +243,37 @@ void Juego::opcionLanzarSonda() {
     }
 }
 
+/**
+* Simula la transmisión de datos de la sonda al transbordador 
+* 
+* @param 
+* @return 
+*/
 void Juego::opcionTransmitir() {
     std::cout << "Forzando transmision de datos desde la sonda...\n";
     sonda.transmitirDatos();
     mision.addEvento(tiempo, "Transmision de datos desde " + sonda.getNombre());
 }
 
+/**
+* Muestra el registro de la misión y un historial de las acciones realizadas por el
+* usuario y eventos aleatorios ocurridos
+*
+* @param 
+* @return 
+*/
 void Juego::opcionVerRegistro() {
     std::cout << "Registro de la mision:\n";
     std::cout << mision.toString();
 }
 
+/**
+* Manda llamar la función intentar evento, de acuerdo el identificador del evento 
+* aplica las consecuencias para este
+*
+* @param 
+* @return 
+*/
 void Juego::eventoAleatorio(){
     int e = evento.intentarEvento();
 
@@ -191,3 +294,4 @@ void Juego::eventoAleatorio(){
             break;
     }
 }
+#endif
