@@ -55,9 +55,13 @@ El usuario puede realizar las siguientes acciones:
 
 # Uso
 El programa principal (`main.cpp`) crea un objeto de tipo Juego para comezar el juego de texto.
+
 Compila como:
+
 g++ main.cpp Juego.h NaveEspacial.h Transbordador.h SondaEspacial.h EstacionOrbital.h MisionEspacial.h RegistroDatos.h Evento.h -o main.exe
+
 Ejecuta como:
+
 ./main.exe
 
 
