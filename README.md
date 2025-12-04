@@ -53,6 +53,20 @@ El usuario puede realizar las siguientes acciones:
 - Avanzar de turno
 - Salir del juego
 
+# Correcciones 
+Entrega 1:
+
+- Correción: Se corrigió el Readme con el fin de mejorar el diseño y explicación para la solución del problema.
+- Subcompetencia: Toma de desiciones (SICT0302A)
+
+Entrega 2:
+
+- Corrección: se corrigió el diagrama de clases, antes usaba agregación entre registro y misión espacial, lo cual no tenía sentido, ya que en el programa no tenía sentido que si eliminaba la misión el registro siguiera existiendo.
+- Subcompetencia: Toma de desiciones (SICT0302A)
+
+Entrega 3:
+- Correción: el uso de referencias en la clase estación orbital, especificamente en la función recragarCombustible era erróneo, ya que estaba mandando como referencia la cantidadSolicitada y el combustibleTransbordador, cuando el único que me interesaba editar sin generar copia era el combustibleTransbordador. Así mismo le dí más sentido al proyecto convirtiendolo es una especie de juego de texto interactivo en lugar de que solo imprima cosas preestablecidas por mi.
+- Subcompetencia: Implementa (SICT0303A)
 # Uso
 El programa principal (`main.cpp`) crea un objeto de tipo Juego para comezar el juego de texto.
 
